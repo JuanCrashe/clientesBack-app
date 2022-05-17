@@ -1,0 +1,66 @@
+<ul class="alert alert-danger" *ngIf="errores?.length > 0">
+    <li *ngFor="let err of errores">
+        {{err}}
+    </li>
+</ul>
+<div class="card bg-dark text-white">
+    <div class="card-header">{{titulo}}</div>
+    <div class="card-body">
+        <form class="row g-3" #clienteForm="ngForm">
+
+            <div class="form-group col-md-6">
+                <label for="inputNombre" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="inputNombre" [(ngModel)]="cliente.nombre" name="nombre"
+                    #nombre="ngModel">
+                <div class="invalid-feedback" *ngIf="nombre.invalid && (nombre.dirty||nombre.touched)">
+                    <p *ngIf="nombre.errors.required">Nombre es requerido</p>
+                    <p *ngIf="nombre.errors.minlength">Nombre debe tener al menos 4 caracteres</p>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <label for="inputTelefono" class="form-label">Telefono</label>
+                <input type="text" class="form-control" id="inputTelefono" [(ngModel)]="cliente.telefono"
+                    name="telefono" #telefono="ngModel">
+                <!-- required minlength="4" -->
+                <div class="invalid-feedback" *ngIf="telefono.invalid && (telefono.dirty||telefono.touched)">
+                    <p *ngIf="telefono.errors.required">Telefono es requerido</p>
+                    <p *ngIf="telefono.errors.minlength">Telefono debe tener al menos 4 caracteres</p>
+                </div>
+            </div>
+            <div class="col-6">
+                <label for="inputEmail" class="form-label">Email</label>
+                <input type="text" class="form-control" id="inputEmail" [(ngModel)]="cliente.email" name="email">
+                <!--required email-->
+            </div>
+            <div class="col-6">
+                <label for="inputTienda" class="form-label">Tienda</label>
+                <input type="text" class="form-control" id="inputTienda" [(ngModel)]="cliente.tienda"
+                    name="tienda">
+                <!--required tienda-->
+            </div>
+            <div class="form-group">
+                <label class="form-label">Deseo concursar en el grupo</label>
+                <div class="form-control">
+                    <label class="radio-inline">
+                        <input type="radio" value="SK" checked name="grupo" [(ngModel)]="cliente.grupo">
+                        SK
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" value="TH" name="grupo" [(ngModel)]="cliente.grupo">
+                        TH
+                    </label>
+                </div>
+            </div>
+            <div class="col-12">
+                <button class="btn btn-primary" role="button" (click)='create()' *ngIf="!cliente.id else elseBlock"
+                    [disabled]="!clienteForm.form.valid">Crear</button>
+
+                <ng-template #elseBlock>
+                    <button class="btn btn-primary" role="button" (click)='update()'
+                        [disabled]="!clienteForm.form.valid">Editar</button>
+                </ng-template>
+            </div>
+        </form>
+    </div>
+</div>
